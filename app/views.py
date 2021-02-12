@@ -7,7 +7,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, mixins
 from .serializers import  *
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from .models import *
 from .soup import *
 
@@ -28,34 +28,43 @@ class DailyUpdates(View):
 
 class Cityevents(generics.GenericAPIView):
     def get(self,request, *args, **kwargs):
-        print(kwargs)
+        print(kwargs,request.META['HTTP_HOST'])
         try:
             city_events(kwargs["cname"])
         except:
-            return Response({"msg":"Some error happened. Please try again."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return JsonResponse({"msg":"Some error happened. Please try again."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         try:
             evs = Cities.objects.get(c_name=kwargs["cname"])
         except:
-            return Response({"msg":"City not found\nCheck from: http://localhost:8000/events/cities/"}, status=status.HTTP_404_NOT_FOUND)
+            md = f"City not found. Check from: http://{request.META['HTTP_HOST']}/events/cities/"
+            return JsonResponse({"msg":md}, status=status.HTTP_404_NOT_FOUND)
         try:
             file = open(f'{evs.c_file}','r')
         except:
-            return Response({"msg":"Some error happened. Please try again."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return JsonResponse({"msg":"Some error happened. Please try again."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         seri = json.load(file)
         print(seri)
-        return Response(seri, status=status.HTTP_200_OK)
+        return JsonResponse(seri,status=status.HTTP_200_OK,safe=False)
 
 
-class City(generics.GenericAPIView, mixins.ListModelMixin):
-    serializer_class = CitySerializer
-    queryset = Cities.objects.all()
+class City(APIView):
     def get(self,request,format=None,*args,**kwargs):
-        return self.list(request,*args,**kwargs)
+        # create_cities()
+        queryset = Cities.objects.all()
+        seri = CitySerializer(queryset,many=True)
+        print(seri.data)
+        return JsonResponse(seri.data,status=status.HTTP_200_OK,safe=False)
 
-    def delete(self,request,format=None,*args,**kwargs):
-        Cities.objects.all().delete()
-        return Response({"msg":"Kaam Ho gaya"}, status=status.HTTP_200_OK)
+    # def delete(self,request,format=None,*args,**kwargs):
+    #     Cities.objects.all().delete()
+    #     return Response({"msg":"Kaam Ho gaya"}, status=status.HTTP_200_OK)
 
+def create_cities():
+    file = open("cities.json")
+    cts = json.load(file)
+    for i in cts:
+        Cities.objects.create(c_name=i,c_url=f"https://in.bookmyshow.com/explore/home/{i}",c_file=f"Citywise-data/{i}.json")
+    print("City creation complete")
 
 class EventRecord(generics.GenericAPIView, mixins.ListModelMixin):
     serializer_class = EventSerializer
