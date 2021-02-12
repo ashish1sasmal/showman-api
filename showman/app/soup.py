@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 import requests
 import json
 from datetime import datetime
+from .models import *
 # Create your views here.
 
 def fetch_soup(url):
@@ -31,12 +32,12 @@ def city_events(city):
                 "img_url":j.img['src'],
                 "genre":genre
                 }
-            e = Events.objects.get_or_create(e_id=d["id"],title=d["title"],e_url=d["url"],img_url=d["img_url"],genre=d["genre"])[0]
-            #print(Cities.objects.get(c_name=city).id)
-            e.city.add(Cities.objects.get(c_name=city).id,)
+            # e = Events.objects.get_or_create(e_id=d["id"],title=d["title"],e_url=d["url"],img_url=d["img_url"],genre=d["genre"])[0]
+            # #print(Cities.objects.get(c_name=city).id)
+            # e.city.add(Cities.objects.get(c_name=city).id,)
             events_list.append(d)
             # print(d)
-    with open(f'{city}.json','w') as outfile:
+    with open(f'Citywise-data/{city}.json','w') as outfile:
         json.dump({f"{city}":events_list},outfile)
 
 

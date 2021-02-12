@@ -9,7 +9,7 @@ class Timestamp(models.Model):
 class Cities(Timestamp):
     c_name = models.CharField(max_length=30)
     c_url = models.URLField()
-
+    c_file = models.FileField(upload_to='Citywise-data/',default='.')
     class Meta:
         ordering = ('c_name', )
 
