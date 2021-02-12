@@ -14,10 +14,10 @@ BASE_URL = https://showman.herokuapp.com/
 | -------------   |:-------------:|
 | <a href="https://showman.herokuapp.com/events/cities/delhi">events/cities/delhi </a>      | Delhi|
 | <a href="https://showman.herokuapp.com/events/cities/mumbai">events/cities/mumbai </a>       | Mumbai |
-| <a href="https://showman.herokuapp.com/events/cities/delhi">events/cities/kolkata </a>      | Kolkata|
-| <a href="https://showman.herokuapp.com/events/cities/delhi">events/cities/chennai </a>      | Chennai|
-| <a href="https://showman.herokuapp.com/events/cities/delhi">events/cities/ahmedabad </a>      | Ahmedabad|
-| <a href="https://showman.herokuapp.com/events/cities/delhi">events/cities/chandigarh </a>      | Chandigarh|
+| <a href="https://showman.herokuapp.com/events/cities/kolkata">events/cities/kolkata </a>      | Kolkata|
+| <a href="https://showman.herokuapp.com/events/cities/chennai">events/cities/chennai </a>      | Chennai|
+| <a href="https://showman.herokuapp.com/events/cities/ahmedabad">events/cities/ahmedabad </a>      | Ahmedabad|
+| <a href="https://showman.herokuapp.com/events/cities/chandigarh">events/cities/chandigarh </a>      | Chandigarh|
 
 <img width="500" alt="portfolio_view" src="https://github.com/ashish1sasmal/showman-api/blob/main/demo.png">
 
