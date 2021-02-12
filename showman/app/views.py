@@ -36,7 +36,7 @@ class Cityevents(generics.GenericAPIView):
         try:
             evs = Cities.objects.get(c_name=kwargs["cname"])
         except:
-            return Response({"msg":"City not found"}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"msg":"City not found\nCheck from: http://localhost:8000/events/cities/"}, status=status.HTTP_404_NOT_FOUND)
         try:
             file = open(f'{evs.c_file}','r')
         except:
