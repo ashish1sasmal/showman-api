@@ -6,7 +6,7 @@ from django.views.generic import View
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, mixins
-from .serializers import  EventSerializer
+from .serializers import  *
 from django.http import HttpResponse
 from .models import *
 from .soup import *
@@ -16,7 +16,7 @@ class DailyUpdates(View):
         now = datetime.now()
         time = now.strftime("%H")
         print(time)
-        if time=="08":
+        if time=="10":
             cities = Cities.objects.all()
             for c in cities:
                 print(c.id, c.c_name)
@@ -26,6 +26,31 @@ class DailyUpdates(View):
         else:
             return HttpResponse("Not Correct Time")
 
+class Cityevents(generics.GenericAPIView):
+    def get(self,request, *args, **kwargs):
+        print(kwargs)
+        try:
+            city_events(kwargs["cname"])
+        except:
+            return Response({"msg":"Some error happened. Please try again."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        try:
+            evs = Cities.objects.get(c_name=kwargs["cname"])
+        except:
+            return Response({"msg":"City not found"}, status=status.HTTP_404_NOT_FOUND)
+        try:
+            file = open(f'{evs.c_file}','r')
+        except:
+            return Response({"msg":"Some error happened. Please try again."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        seri = json.load(file)
+        print(seri)
+        return Response(seri, status=status.HTTP_200_OK)
+
+
+class City(generics.GenericAPIView, mixins.ListModelMixin):
+    serializer_class = CitySerializer
+    queryset = Cities.objects.all()
+    def get(self,request,format=None,*args,**kwargs):
+        return self.list(request,*args,**kwargs)
 
 
 class EventRecord(generics.GenericAPIView, mixins.ListModelMixin):

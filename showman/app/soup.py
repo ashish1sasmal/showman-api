@@ -38,7 +38,7 @@ def city_events(city):
             events_list.append(d)
             # print(d)
     with open(f'Citywise-data/{city}.json','w') as outfile:
-        json.dump({f"{city}":events_list},outfile)
+        json.dump({f"{city}":events_list,"updated_on":str(datetime.now())},outfile)
 
 
 

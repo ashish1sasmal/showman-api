@@ -12,7 +12,7 @@ class TimestampSerializer(serializers.ModelSerializer):
 class CitySerializer(serializers.ModelSerializer):
     class Meta:
         model = Cities
-        fields = ['c_name']
+        fields = ['c_name','c_url']
 
 class EventSerializer(serializers.ModelSerializer):
     # created_on = serializers.ReadOnlyField()
