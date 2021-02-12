@@ -50,7 +50,13 @@ class City(generics.GenericAPIView, mixins.ListModelMixin):
     serializer_class = CitySerializer
     queryset = Cities.objects.all()
     def get(self,request,format=None,*args,**kwargs):
+        Cities.objects.all().delete()
+        print("Kaam Ho gaya")
         return self.list(request,*args,**kwargs)
+
+    def delete(self,request,format=None,*args,**kwargs):
+        Cities.objects.all().delete()
+        return Response({"msg":"Kaam Ho gaya"}, status=status.HTTP_200_OK)
 
 
 class EventRecord(generics.GenericAPIView, mixins.ListModelMixin):
