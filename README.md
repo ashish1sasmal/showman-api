@@ -1,6 +1,6 @@
 # showman-api
 
-Api to provide currently available/ongoing shows/events in popular cities of India.
+Api to provide currently ongoing movies/virtual-shows/events/concert in popular cities of India.
 BASE_URL = https://showman.herokuapp.com/
 
 | Endpoints       | Result           |
