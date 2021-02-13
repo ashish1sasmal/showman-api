@@ -22,4 +22,4 @@ BASE_URL = https://showman.herokuapp.com/
 <img width="500" alt="portfolio_view" src="https://github.com/ashish1sasmal/showman-api/blob/main/demo.png">
 
 
-<i style="font-size:4;">Source and copyright of all the data is with<a href="https://in.bookmyshow.com/">Book My Show</a></i>
+<i style="font-size:4;">Source and copyright of all the data is with <a href="https://in.bookmyshow.com/">Book My Show</a></i>
