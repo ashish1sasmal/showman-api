@@ -16,7 +16,7 @@ class DailyUpdates(View):
         now = datetime.now()
         time = now.strftime("%H")
         print(time)
-        if time=="12":
+        if time=="5":
             cities = Cities.objects.all()
             for c in cities:
                 print(c.id, c.c_name)
@@ -26,9 +26,23 @@ class DailyUpdates(View):
         else:
             return HttpResponse("Not Correct Time")
 
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        print("returning FORWARDED_FOR")
+        ip = x_forwarded_for.split(',')[-1].strip()
+    elif request.META.get('HTTP_X_REAL_IP'):
+        print("returning REAL_IP")
+        ip = request.META.get('HTTP_X_REAL_IP')
+    else:
+        print("returning REMOTE_ADDR")
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
+
+
 class Cityevents(generics.GenericAPIView):
     def get(self,request, *args, **kwargs):
-        print(kwargs,request.META['HTTP_HOST'])
+        ip = get_client_ip(request)
         try:
             city_events(kwargs["cname"])
         except:
@@ -43,7 +57,8 @@ class Cityevents(generics.GenericAPIView):
         except:
             return JsonResponse({"msg":"Some error happened. Please try again."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         seri = json.load(file)
-        print(seri)
+        # print(seri)
+        seri["ip"]= ip
         return JsonResponse(seri,status=status.HTTP_200_OK,safe=False)
 
 
