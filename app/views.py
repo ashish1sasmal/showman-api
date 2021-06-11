@@ -16,7 +16,7 @@ class DailyUpdates(View):
         now = datetime.now()
         time = now.strftime("%H")
         print(time)
-        if time=="5":
+        if time=="14":
             cities = Cities.objects.all()
             for c in cities:
                 print(c.id, c.c_name)
